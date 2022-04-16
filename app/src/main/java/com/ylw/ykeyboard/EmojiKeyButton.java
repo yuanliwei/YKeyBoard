@@ -5,7 +5,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
 
-public class EmojiKeyButton extends Button
+public class EmojiKeyButton extends androidx.appcompat.widget.AppCompatButton
         implements View.OnClickListener {
     KeyValue _key;
 
