@@ -1,0 +1,86 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.YKeyBoard" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+    </style>
+
+    <declare-styleable name="keyboard">
+        <!-- The background of the keyboard -->
+        <attr name="colorKeyboard" format="color"/>
+        <!-- Background of the keys -->
+        <attr name="colorKey" format="color"/>
+        <!-- Background of the keys when pressed -->
+        <attr name="colorKeyActivated" format="color"/>
+        <!-- Label colors -->
+        <attr name="colorLabel" format="color"/>
+        <attr name="colorLabelActivated" format="color"/>
+        <attr name="colorLabelLocked" format="color"/>
+        <!-- Corner labels -->
+        <attr name="colorSubLabel" format="color"/>
+        <!-- Dimens -->
+        <attr name="keyBorderRadius" format="dimension"/>
+        <!-- Emoji panel -->
+        <attr name="emoji_button_bg" type="color" format="color"/>
+        <attr name="emoji_color" type="color" format="color"/>
+        <attr name="emoji_key_bg" type="color" format="color"/>
+        <attr name="emoji_key_text" type="color" format="color"/>
+    </declare-styleable>
+    <style name="Dark">
+        <item name="android:isLightTheme">false</item>
+        <item name="android:forceDarkAllowed">false</item>
+        <item name="colorKeyboard">#1b1b1b</item>
+        <item name="colorKey">#333333</item>
+        <item name="colorKeyActivated">#1b1b1b</item>
+        <item name="colorLabel">#ffffff</item>
+        <item name="colorLabelActivated">#3399ff</item>
+        <item name="colorLabelLocked">#33cc33</item>
+        <item name="colorSubLabel">#cccccc</item>
+        <item name="keyBorderRadius">5dp</item>
+        <item name="emoji_button_bg" type="color">#202020</item>
+        <item name="emoji_color" type="color">#ffffff</item>
+        <item name="emoji_key_bg" type="color">?attr/emoji_button_bg</item>
+        <item name="emoji_key_text" type="color">?attr/colorLabel</item>
+    </style>
+    <style name="Light">
+        <item name="android:isLightTheme">true</item>
+        <item name="android:forceDarkAllowed">false</item>
+        <item name="colorKeyboard">#e3e3e3</item>
+        <item name="colorKey">#cccccc</item>
+        <item name="colorKeyActivated">#e3e3e3</item>
+        <item name="colorLabel">#000000</item>
+        <item name="colorLabelActivated">#0066cc</item>
+        <item name="colorLabelLocked">#33cc33</item>
+        <item name="colorSubLabel">#333333</item>
+        <item name="keyBorderRadius">5dp</item>
+        <item name="emoji_button_bg" type="color">#dedede</item>
+        <item name="emoji_color" type="color">#000000</item>
+        <item name="emoji_key_bg" type="color">?attr/emoji_button_bg</item>
+        <item name="emoji_key_text" type="color">?attr/colorLabel</item>
+    </style>
+    <style name="Black">
+        <item name="android:isLightTheme">false</item>
+        <item name="android:forceDarkAllowed">false</item>
+        <item name="colorKeyboard">#000000</item>
+        <item name="colorKey">#000000</item>
+        <item name="colorKeyActivated">#333333</item>
+        <item name="colorLabel">#eeeeee</item>
+        <item name="colorLabelActivated">#009dff</item>
+        <item name="colorLabelLocked">#00ff26</item>
+        <item name="colorSubLabel">#bbbbbb</item>
+        <item name="keyBorderRadius">1dp</item>
+        <item name="emoji_button_bg" type="color">#000000</item>
+        <item name="emoji_color" type="color">#ffffff</item>
+        <item name="emoji_key_bg" type="color">?attr/emoji_button_bg</item>
+        <item name="emoji_key_text" type="color">?attr/colorLabel</item>
+    </style>
+</resources>
