@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.inputmethodservice.InputMethodService;
-import android.os.Build.VERSION;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.text.InputType;
@@ -21,8 +20,10 @@ import android.view.inputmethod.InputMethodInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.view.inputmethod.InputMethodSubtype;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 public class Keyboard2 extends InputMethodService
@@ -79,17 +80,16 @@ public class Keyboard2 extends InputMethodService
         if (extra_keys == null)
             return;
         String[] ks = extra_keys.split("\\|");
-        for (int i = 0; i < ks.length; i++)
-            dst.add(ks[i]);
+        dst.addAll(Arrays.asList(ks));
     }
 
     private void refreshAccentsOption(InputMethodManager imm, InputMethodSubtype subtype) {
-        HashSet<String> extra_keys = new HashSet<String>();
+        HashSet<String> extra_keys = new HashSet<>();
         List<InputMethodSubtype> enabled_subtypes = getEnabledSubtypes(imm);
         switch (_config.accents) {
             case 1:
                 extra_keys_of_subtype(extra_keys, subtype);
-                for (InputMethodSubtype s : enabled_subtypes)
+                for (InputMethodSubtype s : Objects.requireNonNull(enabled_subtypes))
                     extra_keys_of_subtype(extra_keys, s);
                 break;
             case 2:
@@ -104,37 +104,17 @@ public class Keyboard2 extends InputMethodService
                 throw new IllegalArgumentException();
         }
         _config.extra_keys = extra_keys;
-        if (enabled_subtypes.size() > 1)
+        if (Objects.requireNonNull(enabled_subtypes).size() > 1)
             _config.shouldOfferSwitchingToNextInputMethod = true;
-    }
-
-    private void refreshSubtypeLegacyFallback() {
-        // Fallback for the accents option: Only respect the "None" case
-        switch (_config.accents) {
-            case 1:
-            case 2:
-            case 3:
-                _config.extra_keys = null;
-                break;
-            case 4:
-                _config.extra_keys = new HashSet<String>();
-                break;
-        }
-        // Fallback for the layout option: Use qwerty in the "system settings" case
-        _currentTextLayout = (_config.layout == -1) ? R.xml.qwerty : _config.layout;
     }
 
     private void refreshSubtypeImm() {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        _config.shouldOfferSwitchingToNextInputMethod = imm.shouldOfferSwitchingToNextInputMethod(getConnectionToken());
-        if (VERSION.SDK_INT < 12) {
-            // Subtypes won't work well under API level 12 (getExtraValueOf)
-            refreshSubtypeLegacyFallback();
-        } else {
-            InputMethodSubtype subtype = imm.getCurrentInputMethodSubtype();
-            refreshSubtypeLayout(subtype);
-            refreshAccentsOption(imm, subtype);
-        }
+        //   _config.shouldOfferSwitchingToNextInputMethod = imm.shouldOfferSwitchingToNextInputMethod(getConnectionToken());
+        _config.shouldOfferSwitchingToNextInputMethod = true;
+        InputMethodSubtype subtype = imm.getCurrentInputMethodSubtype();
+        refreshSubtypeLayout(subtype);
+        refreshAccentsOption(imm, subtype);
         _config.shouldOfferSwitchingToProgramming =
                 _config.programming_layout != -1 &&
                         _currentTextLayout != _config.programming_layout;
@@ -221,7 +201,7 @@ public class Keyboard2 extends InputMethodService
     @Override
     public void setInputView(View v) {
         ViewParent parent = v.getParent();
-        if (parent != null && parent instanceof ViewGroup)
+        if (parent instanceof ViewGroup)
             ((ViewGroup) parent).removeView(v);
         super.setInputView(v);
     }
@@ -241,10 +221,6 @@ public class Keyboard2 extends InputMethodService
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         refreshConfig();
-    }
-
-    private IBinder getConnectionToken() {
-        return getWindow().getWindow().getAttributes().token;
     }
 
     private View inflate_view(int layout) {
